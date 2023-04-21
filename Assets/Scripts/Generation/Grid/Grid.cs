@@ -67,6 +67,11 @@ namespace App.Generation.Grid
 
         public void Clear()
         {
+            if (Tiles == null)
+            {
+                Debug.LogWarning("Tiles array is null while trying to clear it");
+                return;
+            }
             for (int i = 0; i < Tiles.Length; i++)
             {
                 Tiles[i] = null;
