@@ -4,7 +4,7 @@ namespace App.Levels
     {
         Pit = 0,
         Ground = 1,
-        Wall = 2,
+        Dirt = 2,
         Door = 3,
         Outside = 50,
     }

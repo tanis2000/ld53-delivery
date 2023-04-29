@@ -15,8 +15,8 @@ namespace App.Levels
             }
 
             Gizmos.matrix = transform.localToWorldMatrix * Matrix4x4.Scale(Vector3.one * Scale);
-            var flat = new Vector3(1, 0, 1);
-            var half = new Vector3(0.5f, 0, 0.5f);
+            var flat = new Vector3(1.0f, 1.0f, 0);
+            var half = new Vector3(0.5f, 0.5f, 0);
 
             var width = Bounds.width;
             var height = Bounds.height;
@@ -41,7 +41,7 @@ namespace App.Levels
                         color = Color.white;
                     }
 
-                    if (t.Type == LevelGridTileType.Wall)
+                    if (t.Type == LevelGridTileType.Dirt)
                     {
                         color = Color.cyan;
                     }
@@ -52,8 +52,8 @@ namespace App.Levels
                     }
                     
                     Gizmos.color = color;
-                    Gizmos.DrawCube(new Vector3(x, 0, y) + half, flat);
-                    Gizmos.DrawWireCube(new Vector3(x, 0, y) + half, flat);
+                    Gizmos.DrawCube(new Vector3(x, y, 0) + half, flat);
+                    Gizmos.DrawWireCube(new Vector3(x, y, 0) + half, flat);
                 }
             }
         }
