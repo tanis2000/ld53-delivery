@@ -30,7 +30,7 @@ namespace App
                 Balloon.SetActive(false);
             }
 
-            Sprite spriteType = WarningSprite;
+            Sprite spriteType = QuestionSprite;
             if (sling.GetRace() == Race)
             {
                 spriteType = OkSprite;

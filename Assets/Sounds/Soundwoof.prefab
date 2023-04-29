@@ -1,0 +1,114 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2985092987856990436
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3539383188829932093}
+  - component: {fileID: 7680958323052284798}
+  m_Layer: 0
+  m_Name: Soundwoof
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3539383188829932093
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2985092987856990436}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 20
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7680958323052284798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2985092987856990436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22ec769ae64e4164bd3dcf58b30152d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AudioType: 1
+  Loop: 0
+  Volume:
+    m_min: 1
+    m_max: 1
+    m_hasMax: 0
+    m_hasValue: 0
+  Pitch:
+    m_min: 1
+    m_max: 1
+    m_hasMax: 0
+    m_hasValue: 0
+  Pan:
+    m_min: 0
+    m_max: 0
+    m_hasMax: 0
+    m_hasValue: 0
+  Chance: 1
+  MixerGroup: {fileID: 0}
+  ReverbPreset: 0
+  DistortionLevel: 0
+  EchoFilter: {fileID: 0}
+  LowPassFilter: {fileID: 0}
+  HighPassFilter: {fileID: 0}
+  ChorusFilter: {fileID: 0}
+  Clips:
+  - AudioClip: {fileID: 8300000, guid: c410ee58dbe8541b1b19971a532861c1, type: 3}
+    Weight: 100
+    Volume:
+      m_min: 1
+      m_max: 1
+      m_hasMax: 0
+      m_hasValue: 0
+    Pitch:
+      m_min: 1
+      m_max: 1
+      m_hasMax: 0
+      m_hasValue: 0
+    StartTime: 0
+    EndTime: 0
+  - AudioClip: {fileID: 8300000, guid: 7ba3e14af86c8418dbf005feb2b48b04, type: 3}
+    Weight: 100
+    Volume:
+      m_min: 1
+      m_max: 1
+      m_hasMax: 0
+      m_hasValue: 0
+    Pitch:
+      m_min: 1
+      m_max: 1
+      m_hasMax: 0
+      m_hasValue: 0
+    StartTime: 0
+    EndTime: 0
+  - AudioClip: {fileID: 8300000, guid: d56978116814f456c9e4ccb558c1b406, type: 3}
+    Weight: 100
+    Volume:
+      m_min: 1
+      m_max: 1
+      m_hasMax: 0
+      m_hasValue: 0
+    Pitch:
+      m_min: 1
+      m_max: 1
+      m_hasMax: 0
+      m_hasValue: 0
+    StartTime: 0
+    EndTime: 0

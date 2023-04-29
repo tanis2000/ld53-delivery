@@ -213,6 +213,25 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -241,7 +260,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 639a82735c524d6faa7f1dc8449dadd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Race: 1
+  Race: 3
   Balloon: {fileID: 6643257476044147354}
   OkSprite: {fileID: 430296725, guid: 12cb12a1bdf0e461392923569464dd7e, type: 3}
   QuestionSprite: {fileID: -1043694510, guid: 12cb12a1bdf0e461392923569464dd7e, type: 3}

@@ -1,5 +1,6 @@
 using System;
 using GameBase.Animations.Actors;
+using GameBase.Audio;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -12,6 +13,8 @@ namespace App
         [SerializeField] private GameObject PivotBack;
         [SerializeField] private GameObject PivotMiddle;
         [SerializeField] private RaceType Race;
+        [SerializeField] private AudioCue SlingCue;
+        [SerializeField] private AudioCue HitCue;
 
         private bool wasDragging;
         private bool isDragging;
@@ -26,6 +29,7 @@ namespace App
         private BoxCollider2D coll;
         private LevelSystem levelSystem;
         private bool goalReached;
+        private float audioCooldown;
 
         private void OnEnable()
         {
@@ -76,9 +80,10 @@ namespace App
 
         private void DetachFromPivot()
         {
-            if (transform.position.x > Pivot.transform.position.x && !body.isKinematic)
+            if (transform.position.x > Pivot.transform.position.x && !body.isKinematic && spring.enabled)
             {
                 spring.enabled = false;
+                PlayCueWithCD(SlingCue);
             }
         }
 
@@ -106,11 +111,13 @@ namespace App
             DetachFromPivot();
             DrawLine();
             DetectStop();
+            UpdateAudioCooldown();
         }
 
         private void OnCollisionEnter2D(Collision2D other)
         {
             stretcher.Execute();
+            PlayCueWithCD(HitCue);
 
             var goal = other.gameObject.GetComponent<Goal>();
             if (goal != null && !goalReached && isSelected)
@@ -166,6 +173,21 @@ namespace App
         public void OutOfBoundsStop()
         {
             body.velocity = Vector2.zero;
+        }
+
+        private void PlayCueWithCD(AudioCue cue)
+        {
+            if (audioCooldown > 0)
+            {
+                return;
+            }
+            audioCooldown = 0.5f;
+            AudioSystem.Instance().Play(cue);
+        }
+
+        private void UpdateAudioCooldown()
+        {
+            audioCooldown -= Time.deltaTime;
         }
     }
 }
