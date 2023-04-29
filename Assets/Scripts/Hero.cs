@@ -7,14 +7,14 @@ using UnityEngine.InputSystem;
 
 namespace App
 {
-    public class Hero : MonoBehaviour, InputActions.IGameActions
+    public class Hero : MonoBehaviour, GameInput.IGameActions
     {
         private Leaner leaner;
         private Mover mover;
         private Hopper hopper;
         private Stretcher stretcher;
         private Flipper flipper;
-        private InputActions gameActions;
+        private GameInput gameInput;
         
         private int facing = 1;
 
@@ -25,9 +25,9 @@ namespace App
             hopper = GetComponent<Hopper>();
             stretcher = GetComponent<Stretcher>();
             flipper = GetComponent<Flipper>();
-            gameActions = new InputActions();
-            gameActions.Game.SetCallbacks(this);
-            gameActions.Game.Enable();
+            gameInput = new GameInput();
+            gameInput.Game.SetCallbacks(this);
+            gameInput.Game.Enable();
             //gameActions.Game.Move.performed += OnMove;
         }
 
