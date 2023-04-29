@@ -41,3 +41,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Back
+    uniqueID: 1513597459
+    locked: 0
+  - name: Goal
+    uniqueID: 796189277
+    locked: 0
+  - name: Hero
+    uniqueID: 1150920975
+    locked: 0
+  - name: Front
+    uniqueID: 598600327
+    locked: 0

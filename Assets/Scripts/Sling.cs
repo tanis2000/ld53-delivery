@@ -11,6 +11,7 @@ namespace App
         [SerializeField] private GameObject PivotFront;
         [SerializeField] private GameObject PivotBack;
         [SerializeField] private GameObject PivotMiddle;
+        [SerializeField] private RaceType Race;
 
         private bool wasDragging;
         private bool isDragging;
@@ -20,6 +21,11 @@ namespace App
         private bool canDrag = true;
         private LineRenderer line;
         private Stretcher stretcher;
+        private SubmitScore submitScore;
+        private bool isSelected;
+        private BoxCollider2D coll;
+        private LevelSystem levelSystem;
+        private bool goalReached;
 
         private void OnEnable()
         {
@@ -28,6 +34,8 @@ namespace App
             spring = GetComponent<SpringJoint2D>();
             line = GetComponent<LineRenderer>();
             stretcher = GetComponentInChildren<Stretcher>();
+            submitScore = FindObjectOfType<SubmitScore>();
+            coll = GetComponent<BoxCollider2D>();
         }
 
         private void DetectTouch()
@@ -90,14 +98,74 @@ namespace App
 
         private void Update()
         {
+            if (!isSelected)
+            {
+                return;
+            }
             DetectTouch();
             DetachFromPivot();
             DrawLine();
+            DetectStop();
         }
 
         private void OnCollisionEnter2D(Collision2D other)
         {
             stretcher.Execute();
+
+            var goal = other.gameObject.GetComponent<Goal>();
+            if (goal != null && !goalReached && isSelected)
+            {
+                //body.AddForce(Vector2.up * 2.5f, ForceMode2D.Impulse);
+                body.velocity = Vector2.zero;
+                goal.Hit(this);
+                goalReached = true;
+                if (goal.GetRace() == Race)
+                {
+                    submitScore.IncrementScore(3);
+                }
+                else
+                {
+                    submitScore.IncrementScore();
+                }
+                levelSystem.Next(true);
+            }
+        }
+
+        public RaceType GetRace()
+        {
+            return Race;
+        }
+
+        public void StartGame(LevelSystem ls)
+        {
+            levelSystem = ls;
+            isSelected = true;
+            transform.position = PivotMiddle.transform.position;
+            coll.enabled = true;
+        }
+
+        public void StopGame()
+        {
+            isSelected = false;
+            coll.enabled = false;
+        }
+
+        private void DetectStop()
+        {
+            if (isSelected && !spring.enabled && body.velocity.magnitude <= 0.01f)
+            {
+                Debug.Log("Stopped");
+                isSelected = false;
+                if (!goalReached)
+                {
+                    levelSystem.Next(false);
+                }
+            }
+        }
+
+        public void OutOfBoundsStop()
+        {
+            body.velocity = Vector2.zero;
         }
     }
 }

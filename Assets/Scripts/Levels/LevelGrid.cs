@@ -46,9 +46,9 @@ namespace App.Levels
                         color = Color.cyan;
                     }
 
-                    if (t.Type == LevelGridTileType.Door)
+                    if (t.Type == LevelGridTileType.Grass)
                     {
-                        color = Color.yellow;
+                        color = Color.green;
                     }
                     
                     Gizmos.color = color;
