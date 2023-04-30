@@ -272,7 +272,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 4
+  m_Constraints: 0
 --- !u!231 &3337823566915355213
 SpringJoint2D:
   m_ObjectHideFlags: 0
@@ -314,6 +314,9 @@ MonoBehaviour:
   SlingCue: {fileID: 5557283498826171244, guid: 59fb285cfa51845cba87a3476023a76b,
     type: 3}
   HitCue: {fileID: 5557283498826171244, guid: 59fb285cfa51845cba87a3476023a76b, type: 3}
+  TrajectoryPointPrefeb: {fileID: 6593806111404703879, guid: ac1927d8d4b6044239e0db2a251a5ccd,
+    type: 3}
+  Power: 15
 --- !u!120 &3337823566915355215
 LineRenderer:
   serializedVersion: 2

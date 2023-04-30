@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using GameBase.Animations.Actors;
 using GameBase.Audio;
 using UnityEngine;
@@ -15,6 +16,9 @@ namespace App
         [SerializeField] private RaceType Race;
         [SerializeField] private AudioCue SlingCue;
         [SerializeField] private AudioCue HitCue;
+        [SerializeField] private GameObject TrajectoryPointPrefeb;
+        [SerializeField] private float Power = 10;
+
 
         private bool wasDragging;
         private bool isDragging;
@@ -30,6 +34,9 @@ namespace App
         private LevelSystem levelSystem;
         private bool goalReached;
         private float audioCooldown;
+        private int numOfTrajectoryPoints = 30;
+        private List<GameObject> trajectoryPoints = new List<GameObject>();
+
 
         private void OnEnable()
         {
@@ -40,6 +47,14 @@ namespace App
             stretcher = GetComponentInChildren<Stretcher>();
             submitScore = FindObjectOfType<SubmitScore>();
             coll = GetComponent<BoxCollider2D>();
+
+            for (var i = 0; i < numOfTrajectoryPoints; i++)
+            {
+                GameObject dot = Instantiate(TrajectoryPointPrefeb, transform.parent);
+                dot.GetComponent<Renderer>().enabled = false;
+                trajectoryPoints.Insert(i, dot);
+            }
+
         }
 
         private void DetectTouch()
@@ -68,6 +83,12 @@ namespace App
                 worldPosition.z = transform.position.z;
 
                 transform.position = worldPosition;
+                
+                Vector3 vel = GetForceFrom(Camera.main.ScreenToWorldPoint(UnityEngine.Input.mousePosition), Pivot.transform.position);
+                float angle = Mathf.Atan2(vel.y,vel.x)* Mathf.Rad2Deg;
+                transform.eulerAngles = new Vector3(0,0,angle);
+                SetTrajectoryPoints(transform.position, vel/GetComponent<Rigidbody2D>().mass);
+
             }
         }
 
@@ -76,6 +97,9 @@ namespace App
             body.isKinematic = false;
             canDrag = false;
             isDragging = false;
+            spring.enabled = false;
+            body.AddForce(GetForceFrom(Camera.main.ScreenToWorldPoint(UnityEngine.Input.mousePosition), Pivot.transform.position),ForceMode2D.Impulse);
+            PlayCueWithCD(SlingCue);
         }
 
         private void DetachFromPivot()
@@ -118,6 +142,7 @@ namespace App
         {
             stretcher.Execute();
             PlayCueWithCD(HitCue);
+            RemoveTrajectoryPoints();
 
             var goal = other.gameObject.GetComponent<Goal>();
             if (goal != null && !goalReached && isSelected)
@@ -188,6 +213,39 @@ namespace App
         private void UpdateAudioCooldown()
         {
             audioCooldown -= Time.deltaTime;
+        }
+        
+        private Vector2 GetForceFrom(Vector3 fromPos, Vector3 toPos)
+        {
+            return (new Vector2(toPos.x, toPos.y) - new Vector2(fromPos.x, fromPos.y))*Power;
+        }
+        
+        private void SetTrajectoryPoints(Vector3 pStartPosition , Vector3 pVelocity )
+        {
+            float velocity = Mathf.Sqrt((pVelocity.x * pVelocity.x) + (pVelocity.y * pVelocity.y));
+            float angle = Mathf.Rad2Deg*(Mathf.Atan2(pVelocity.y , pVelocity.x));
+            float fTime = 0;
+        
+            fTime += 0.1f;
+            for (int i = 0 ; i < trajectoryPoints.Count ; i++)
+            {
+                float dx = velocity * fTime * Mathf.Cos(angle * Mathf.Deg2Rad);
+                float dy = velocity * fTime * Mathf.Sin(angle * Mathf.Deg2Rad) - (Physics2D.gravity.magnitude * fTime * fTime / 2.0f);
+                Vector3 pos = new Vector3(pStartPosition.x + dx , pStartPosition.y + dy ,2);
+                trajectoryPoints[i].transform.position = pos;
+                trajectoryPoints[i].GetComponent<Renderer>().enabled = true;
+                trajectoryPoints[i].transform.eulerAngles = new Vector3(0,0,Mathf.Atan2(pVelocity.y - (Physics.gravity.magnitude)*fTime,pVelocity.x)*Mathf.Rad2Deg);
+                fTime += 0.1f;
+            }
+        }
+
+        public void RemoveTrajectoryPoints()
+        {
+            foreach (var trajectoryPoint in trajectoryPoints)
+            {
+                Destroy(trajectoryPoint.gameObject);
+            }
+            trajectoryPoints.Clear();
         }
     }
 }

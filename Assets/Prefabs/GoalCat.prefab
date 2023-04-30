@@ -265,3 +265,4 @@ MonoBehaviour:
   OkSprite: {fileID: 430296725, guid: 12cb12a1bdf0e461392923569464dd7e, type: 3}
   QuestionSprite: {fileID: -1043694510, guid: 12cb12a1bdf0e461392923569464dd7e, type: 3}
   WarningSprite: {fileID: -1132717357, guid: 12cb12a1bdf0e461392923569464dd7e, type: 3}
+  HitCue: {fileID: 5557283498826171244, guid: 59fb285cfa51845cba87a3476023a76b, type: 3}

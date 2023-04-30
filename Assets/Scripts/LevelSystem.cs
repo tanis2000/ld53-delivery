@@ -8,39 +8,51 @@ namespace App
 {
     public class LevelSystem : MonoBehaviour
     {
-        [SerializeField] private List<Sling> Throwables;
         [SerializeField] private int NeededDeliveries = 1;
 
         private int selectedThrowable = 0;
         private int reachedThrowables = 0;
         private Game game;
-
+        private List<Sling> throwables = new List<Sling>();
+        
         private void OnEnable()
         {
-            Throwables.Clear();
-            Throwables = GetComponentsInChildren<Sling>().ToList();
+            throwables.Clear();
+            throwables = GetComponentsInChildren<Sling>().ToList();
             Game.Instance.UpdateDeliveries(NeededDeliveries);
         }
 
-        public void StartLevel(Game g)
+        public void StartLevel(Game g, bool showTrajectoryPoints)
         {
             game = g;
             gameObject.SetActive(true);
-            StartCoroutine(StartLevel());
+            StartCoroutine(StartLevel(showTrajectoryPoints));
         }
         
-        private IEnumerator StartLevel()
+        private IEnumerator StartLevel(bool showTrajectoryPoints)
         {
             yield return new WaitForSeconds(1);
-            StopAllThrowables();    
-            Throwables.First().StartGame(this);
+            StopAllThrowables();
+            if (!showTrajectoryPoints)
+            {
+                HideAllTrajectoryPoints();
+            }
+            throwables.First().StartGame(this);
         }
         
         private void StopAllThrowables()
         {
-            foreach (var throwable in Throwables)
+            foreach (var throwable in throwables)
             {
                 throwable.StopGame();
+            }
+        }
+
+        private void HideAllTrajectoryPoints()
+        {
+            foreach (var throwable in throwables)
+            {
+                throwable.RemoveTrajectoryPoints();
             }
         }
 
@@ -53,13 +65,13 @@ namespace App
             
             selectedThrowable++;
             Debug.Log($"selected: {selectedThrowable}");
-            if (selectedThrowable >= Throwables.Count)
+            if (selectedThrowable >= throwables.Count)
             {
                 EndLevel();
                 return;
             }
             
-            Throwables[selectedThrowable].StartGame(this);
+            throwables[selectedThrowable].StartGame(this);
         }
 
         private void EndLevel()

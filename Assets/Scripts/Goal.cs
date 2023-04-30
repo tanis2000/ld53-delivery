@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using GameBase.Audio;
 using UnityEngine;
 
 namespace App
@@ -12,14 +13,21 @@ namespace App
         [SerializeField] private Sprite OkSprite;
         [SerializeField] private Sprite QuestionSprite;
         [SerializeField] private Sprite WarningSprite;
+        [SerializeField] private AudioCue HitCue;
 
         private Coroutine showingBalloon;
         private SpriteRenderer spriteRenderer;
-        
+        private float audioCooldown;
+
         private void OnEnable()
         {
             Balloon.SetActive(false);
             spriteRenderer = Balloon.GetComponent<SpriteRenderer>();
+        }
+
+        private void Update()
+        {
+            UpdateAudioCooldown();
         }
 
         public void Hit(Sling sling)
@@ -37,6 +45,7 @@ namespace App
             }
 
             showingBalloon = StartCoroutine(ShowBalloon(spriteType));
+            PlayCueWithCD(HitCue);
         }
 
         private IEnumerator ShowBalloon(Sprite spriteType)
@@ -51,5 +60,21 @@ namespace App
         {
             return Race;
         }
+        
+        private void PlayCueWithCD(AudioCue cue)
+        {
+            if (audioCooldown > 0)
+            {
+                return;
+            }
+            audioCooldown = 0.5f;
+            AudioSystem.Instance().Play(cue);
+        }
+
+        private void UpdateAudioCooldown()
+        {
+            audioCooldown -= Time.deltaTime;
+        }
+
     }
 }

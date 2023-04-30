@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using App.Input;
 using GameBase.Animations;
+using GameBase.Audio;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -22,6 +23,7 @@ namespace App.UI
             gameInput = new GameInput();
             gameInput.Menu.SetCallbacks(this);
             gameInput.Menu.Enable();
+            PlayOpeningTheme();
         }
 
         private void OnDisable()
@@ -59,5 +61,11 @@ namespace App.UI
         {
             Debug.Log(context.performed);
         }
+
+        private void PlayOpeningTheme()
+        {
+            AudioSystem.Instance().Play("Soundopening-theme");
+        }
+
     }
 }

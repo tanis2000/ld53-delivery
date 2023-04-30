@@ -391,6 +391,27 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: plank1
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 912
+        width: 16
+        height: 16
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e568b430c097246508c8710f5ed348ea
+      internalID: 2105566783
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -413,6 +434,7 @@ TextureImporter:
       ground: 1692511028
       ok: 430296725
       other_1: 75927343
+      plank1: 2105566783
       question: -1043694510
       sling: 944545900
       sling_line: -310034052

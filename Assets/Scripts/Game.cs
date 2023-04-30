@@ -20,6 +20,7 @@ namespace App
         [SerializeField] private GameObject GameOverUI;
         [SerializeField] private GameObject GameCompletedUI;
         [SerializeField] private TMP_Text DeliveriesText;
+        [SerializeField] private int NumberOfTutorialLevels = 3;
         
         private static Game instance;
         private bool isPaused;
@@ -79,7 +80,7 @@ namespace App
         private void StartFirstLevel()
         {
             currentLevel = 0;
-            LevelSystems[0].StartLevel(this);
+            LevelSystems[0].StartLevel(this, true);
         }
 
         public void NextLevel()
@@ -92,13 +93,13 @@ namespace App
             }
             else
             {
-                LevelSystems[currentLevel].StartLevel(this);
+                LevelSystems[currentLevel].StartLevel(this, currentLevel <= NumberOfTutorialLevels-1);
             }
         }
 
         private void Update()
         {
-            if (UnityEngine.Input.GetKeyDown(KeyCode.L))
+            if (UnityEngine.Input.GetKeyDown(KeyCode.L) && Application.isEditor)
             {
                 LevelSystems[currentLevel].gameObject.SetActive(false);
                 NextLevel();
