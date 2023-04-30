@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using GameBase.Audio;
 using GameBase.SceneChanger;
+using GameBase.Utils;
 using TMPro;
 using UnityEngine;
 
@@ -27,6 +28,7 @@ namespace App
         private State currentState;
         private int currentLevel;
         private SubmitScore submitScore;
+        private XRandom rnd;
 
         public static Game Instance
         {
@@ -50,6 +52,7 @@ namespace App
             submitScore = FindObjectOfType<SubmitScore>();
             PlayMainTheme();
             StartFirstLevel();
+            rnd = new XRandom(42);
         }
 
         public bool IsPaused()
@@ -69,7 +72,7 @@ namespace App
 
         public void PlayMainTheme()
         {
-            AudioSystem.Instance().Play("SoundTheme1");
+            AudioSystem.Instance().Play("Soundmain-theme");
         }
 
         public void SwitchState(State state)
@@ -141,6 +144,11 @@ namespace App
         public void UpdateDeliveries(int num)
         {
             DeliveriesText.text = $"{num}";
+        }
+
+        public XRandom GetRnd()
+        {
+            return rnd;
         }
     }
 }
