@@ -317,7 +317,7 @@ MonoBehaviour:
   HitCue: {fileID: 5557283498826171244, guid: 59fb285cfa51845cba87a3476023a76b, type: 3}
   TrajectoryPointPrefeb: {fileID: 6593806111404703879, guid: ac1927d8d4b6044239e0db2a251a5ccd,
     type: 3}
-  Power: 15
+  Power: 7.5
 --- !u!120 &3337823566915355215
 LineRenderer:
   serializedVersion: 2

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using GameBase.Animations;
 using GameBase.Animations.Actors;
 using GameBase.Audio;
 using UnityEngine;
@@ -36,6 +37,8 @@ namespace App
         private float audioCooldown;
         private int numOfTrajectoryPoints = 30;
         private List<GameObject> trajectoryPoints = new List<GameObject>();
+        private CameraPan cameraPan;
+        private CameraFollow cameraFollow;
 
 
         private void OnEnable()
@@ -47,6 +50,8 @@ namespace App
             stretcher = GetComponentInChildren<Stretcher>();
             submitScore = FindObjectOfType<SubmitScore>();
             coll = GetComponent<BoxCollider2D>();
+            cameraPan = FindObjectOfType<CameraPan>();
+            cameraFollow = FindObjectOfType<CameraFollow>();
 
             for (var i = 0; i < numOfTrajectoryPoints; i++)
             {
@@ -61,7 +66,15 @@ namespace App
         {
             if (Mouse.current.press.isPressed)
             {
-                isDragging = true;
+                var touchPosition = Mouse.current.position.ReadValue();
+                var worldPosition = mainCamera.ScreenToWorldPoint(touchPosition);
+                var hit = Physics2D.Raycast(worldPosition, Vector2.zero);
+                if (hit.rigidbody == body)
+                {
+                    isDragging = true;
+                    cameraPan.DisablePan();
+                    coll.enabled = false;
+                }
             }
 
             if (!Mouse.current.press.isPressed)
@@ -100,6 +113,8 @@ namespace App
             spring.enabled = false;
             body.AddForce(GetForceFrom(Camera.main.ScreenToWorldPoint(UnityEngine.Input.mousePosition), Pivot.transform.position),ForceMode2D.Impulse);
             PlayCueWithCD(SlingCue);
+            cameraFollow.Enable();
+            cameraFollow.Target = transform;
         }
 
         private void DetachFromPivot()
@@ -108,6 +123,14 @@ namespace App
             {
                 spring.enabled = false;
                 PlayCueWithCD(SlingCue);
+            }
+        }
+
+        private void EnableCollisions()
+        {
+            if (transform.position.x > Pivot.transform.position.x && !isDragging)
+            {
+                coll.enabled = true;
             }
         }
 
@@ -136,6 +159,7 @@ namespace App
             DrawLine();
             DetectStop();
             UpdateAudioCooldown();
+            EnableCollisions();
         }
 
         private void OnCollisionEnter2D(Collision2D other)
@@ -159,6 +183,8 @@ namespace App
                 {
                     submitScore.IncrementScore();
                 }
+                cameraFollow.Disable();
+                cameraPan.EnablePan();
                 levelSystem.Next(true);
             }
         }
@@ -188,6 +214,8 @@ namespace App
             {
                 Debug.Log("Stopped");
                 isSelected = false;
+                cameraFollow.Disable();
+                cameraPan.EnablePan();
                 if (!goalReached)
                 {
                     levelSystem.Next(false);
